@@ -1,0 +1,339 @@
+/**
+ * Holiday Auto Notice - 管理画面スタイル
+ */
+
+/* 全般 */
+.han-wrap {
+    max-width: 1400px;
+}
+
+/* ナビゲーション */
+.han-nav {
+    margin: 15px 0;
+}
+
+.han-nav-year,
+.han-nav-month {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 4px;
+    margin-bottom: 8px;
+}
+
+.han-nav .button {
+    min-width: 60px;
+    text-align: center;
+}
+
+/* ツールバー */
+.han-toolbar {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin: 15px 0;
+    padding: 10px 15px;
+    background: #fff;
+    border: 1px solid #ccd0d4;
+    border-radius: 4px;
+}
+
+.han-toolbar h2 {
+    margin: 0;
+    padding: 0;
+}
+
+.han-toolbar-right {
+    display: flex;
+    gap: 8px;
+    flex-wrap: wrap;
+}
+
+/* インポートセクション */
+.han-import-section {
+    margin: 15px 0;
+    padding: 12px 15px;
+    background: #f0f0f1;
+    border-radius: 4px;
+}
+
+.han-import-section form {
+    display: inline-block;
+}
+
+/* カレンダーテーブル */
+.han-calendar-table {
+    border-collapse: collapse;
+}
+
+.han-calendar-table th,
+.han-calendar-table td {
+    padding: 6px 8px;
+    vertical-align: middle;
+}
+
+.han-col-date {
+    width: 70px;
+    font-weight: 600;
+}
+
+.han-col-weekday {
+    width: 50px;
+    text-align: center;
+}
+
+.han-col-status {
+    width: 130px;
+}
+
+.han-col-type {
+    width: 150px;
+}
+
+.han-col-memo {
+    min-width: 150px;
+}
+
+.han-col-auto {
+    width: 70px;
+    text-align: center;
+}
+
+.han-col-post {
+    width: 100px;
+}
+
+.han-col-actions {
+    width: 140px;
+}
+
+/* 曜日色分け */
+.han-weekday-0 {
+    color: #dc3232;
+    font-weight: 600;
+}
+
+.han-weekday-6 {
+    color: #0073aa;
+    font-weight: 600;
+}
+
+/* 行の色分け */
+.han-sunday {
+    background-color: #fff0f0 !important;
+}
+
+.han-saturday {
+    background-color: #f0f5ff !important;
+}
+
+.han-holiday-row {
+    background-color: #ffe8e8 !important;
+}
+
+.han-short-row {
+    background-color: #fff8e1 !important;
+}
+
+.han-special-row {
+    background-color: #e8f5e9 !important;
+}
+
+.han-today {
+    outline: 2px solid #2271b1;
+    outline-offset: -2px;
+}
+
+/* セレクトボックス */
+.han-status-select,
+.han-type-select {
+    width: 100%;
+    max-width: 140px;
+}
+
+.han-memo-input {
+    width: 100%;
+    max-width: 200px;
+}
+
+/* 投稿リンク */
+.han-post-link {
+    text-decoration: none;
+    font-weight: 600;
+}
+
+.han-post-status {
+    font-size: 11px;
+    color: #666;
+}
+
+/* モーダル */
+.han-modal {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    z-index: 100100;
+    background: rgba(0, 0, 0, 0.5);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.han-modal-content {
+    background: #fff;
+    border-radius: 6px;
+    width: 90%;
+    max-width: 700px;
+    max-height: 80vh;
+    overflow-y: auto;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.3);
+}
+
+.han-modal-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 15px 20px;
+    border-bottom: 1px solid #ddd;
+}
+
+.han-modal-header h2 {
+    margin: 0;
+    font-size: 18px;
+}
+
+.han-modal-close {
+    background: none;
+    border: none;
+    font-size: 24px;
+    cursor: pointer;
+    color: #666;
+    padding: 0 5px;
+}
+
+.han-modal-close:hover {
+    color: #dc3232;
+}
+
+.han-modal-body {
+    padding: 20px;
+}
+
+.han-modal-footer {
+    padding: 15px 20px;
+    border-top: 1px solid #ddd;
+    display: flex;
+    gap: 8px;
+    justify-content: flex-end;
+}
+
+/* プレビュー */
+#han-preview-content h3 {
+    margin-top: 0;
+}
+
+#han-preview-content .han-preview-section {
+    margin-bottom: 20px;
+    padding: 15px;
+    background: #f9f9f9;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+}
+
+#han-preview-content .han-preview-label {
+    font-weight: 600;
+    color: #1d2327;
+    margin-bottom: 5px;
+}
+
+/* テンプレート管理 */
+.han-template-section {
+    margin-bottom: 20px;
+    padding: 15px;
+    background: #fff;
+    border: 1px solid #ccd0d4;
+    border-radius: 4px;
+}
+
+.han-template-section h3 {
+    margin-top: 0;
+    padding-bottom: 10px;
+    border-bottom: 1px solid #eee;
+}
+
+/* ログ */
+.han-log-filters {
+    margin: 15px 0;
+}
+
+.han-log-filters form {
+    display: flex;
+    gap: 8px;
+    align-items: center;
+}
+
+.han-log-level {
+    display: inline-block;
+    padding: 2px 8px;
+    border-radius: 3px;
+    font-size: 11px;
+    font-weight: 600;
+}
+
+.han-log-level-info {
+    background: #e7f5fe;
+    color: #0073aa;
+}
+
+.han-log-level-warning {
+    background: #fff8e1;
+    color: #996800;
+}
+
+.han-log-level-error {
+    background: #fce4e4;
+    color: #dc3232;
+}
+
+.han-log-context {
+    font-size: 11px;
+    word-break: break-all;
+    max-width: 200px;
+    display: inline-block;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+.han-log-actions {
+    display: flex;
+    gap: 10px;
+    align-items: center;
+}
+
+/* 実行結果 */
+.han-result-item {
+    padding: 8px 12px;
+    margin-bottom: 8px;
+    background: #f0f6fc;
+    border-left: 3px solid #2271b1;
+    border-radius: 2px;
+}
+
+.han-result-item.han-result-empty {
+    background: #f0f0f1;
+    border-left-color: #ccc;
+}
+
+/* レスポンシブ */
+@media screen and (max-width: 960px) {
+    .han-toolbar {
+        flex-direction: column;
+        gap: 10px;
+    }
+
+    .han-col-memo,
+    .han-col-actions {
+        display: none;
+    }
+}
