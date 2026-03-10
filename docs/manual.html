@@ -1,0 +1,1043 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<title>Holiday Auto Notice 操作マニュアル</title>
+<style>
+  @page {
+    size: A4;
+    margin: 20mm 18mm 25mm 18mm;
+    @bottom-center {
+      content: counter(page) " / " counter(pages);
+      font-size: 9pt;
+      color: #888;
+    }
+  }
+  body {
+    font-family: "Hiragino Kaku Gothic ProN", "Noto Sans JP", "Yu Gothic", sans-serif;
+    font-size: 10.5pt;
+    line-height: 1.75;
+    color: #222;
+    margin: 0;
+    padding: 0;
+  }
+
+  /* ===== Cover ===== */
+  .cover {
+    page-break-after: always;
+    text-align: center;
+    padding-top: 120px;
+  }
+  .cover h1 {
+    font-size: 28pt;
+    margin-bottom: 10px;
+    color: #1d2327;
+  }
+  .cover .subtitle {
+    font-size: 14pt;
+    color: #555;
+    margin-bottom: 60px;
+  }
+  .cover .version {
+    font-size: 11pt;
+    color: #777;
+    margin-top: 80px;
+  }
+
+  /* ===== TOC ===== */
+  .toc {
+    page-break-after: always;
+  }
+  .toc h2 {
+    font-size: 16pt;
+    border-bottom: 2px solid #2271b1;
+    padding-bottom: 8px;
+    color: #1d2327;
+  }
+  .toc ol {
+    font-size: 11pt;
+    line-height: 2.2;
+  }
+  .toc ol li {
+    border-bottom: 1px dotted #ccc;
+    padding-left: 4px;
+  }
+
+  /* ===== Headings ===== */
+  h2 {
+    font-size: 16pt;
+    color: #1d2327;
+    border-left: 5px solid #2271b1;
+    padding-left: 12px;
+    margin-top: 30px;
+    page-break-after: avoid;
+  }
+  h3 {
+    font-size: 13pt;
+    color: #2271b1;
+    margin-top: 22px;
+    page-break-after: avoid;
+  }
+  h4 {
+    font-size: 11pt;
+    color: #333;
+    margin-top: 16px;
+  }
+
+  /* ===== Section ===== */
+  section {
+    page-break-before: always;
+  }
+  section:first-of-type {
+    page-break-before: auto;
+  }
+
+  /* ===== Screen mock ===== */
+  .screen {
+    background: #f0f0f1;
+    border: 1px solid #c3c4c7;
+    border-radius: 4px;
+    padding: 16px 18px;
+    margin: 14px 0;
+    font-size: 9.5pt;
+    page-break-inside: avoid;
+  }
+  .screen-title {
+    background: #1d2327;
+    color: #fff;
+    padding: 6px 14px;
+    margin: -16px -18px 14px -18px;
+    border-radius: 4px 4px 0 0;
+    font-size: 10pt;
+    font-weight: bold;
+  }
+  .wp-menu {
+    background: #1d2327;
+    color: #c3c4c7;
+    padding: 10px 14px;
+    border-radius: 4px;
+    margin: 12px 0;
+    font-size: 9.5pt;
+    line-height: 2;
+  }
+  .wp-menu .active {
+    color: #72aee6;
+    font-weight: bold;
+  }
+
+  /* ===== Table mock ===== */
+  .mock-table {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 9pt;
+    margin: 10px 0;
+  }
+  .mock-table th {
+    background: #f0f0f1;
+    border: 1px solid #c3c4c7;
+    padding: 6px 8px;
+    text-align: left;
+    font-weight: 600;
+  }
+  .mock-table td {
+    border: 1px solid #c3c4c7;
+    padding: 6px 8px;
+  }
+  .mock-table .holiday-row {
+    background: #fce4ec;
+  }
+  .mock-table .sunday {
+    color: #d32f2f;
+  }
+  .mock-table .saturday {
+    color: #1565c0;
+  }
+
+  /* ===== UI Elements ===== */
+  .btn {
+    display: inline-block;
+    background: #f0f0f1;
+    border: 1px solid #8c8f94;
+    padding: 2px 10px;
+    border-radius: 3px;
+    font-size: 9pt;
+    color: #2c3338;
+  }
+  .btn-primary {
+    background: #2271b1;
+    border-color: #2271b1;
+    color: #fff;
+  }
+  .btn-small {
+    padding: 1px 8px;
+    font-size: 8.5pt;
+  }
+  .select-mock {
+    display: inline-block;
+    background: #fff;
+    border: 1px solid #8c8f94;
+    padding: 2px 8px;
+    border-radius: 3px;
+    font-size: 9pt;
+    color: #2c3338;
+  }
+  .input-mock {
+    display: inline-block;
+    background: #fff;
+    border: 1px solid #8c8f94;
+    padding: 2px 8px;
+    border-radius: 3px;
+    font-size: 9pt;
+    min-width: 80px;
+    color: #999;
+  }
+  .checkbox-mock {
+    display: inline-block;
+    width: 13px;
+    height: 13px;
+    border: 1px solid #8c8f94;
+    border-radius: 2px;
+    vertical-align: middle;
+    text-align: center;
+    font-size: 9pt;
+    line-height: 13px;
+    background: #fff;
+  }
+  .checkbox-mock.checked {
+    background: #2271b1;
+    color: #fff;
+  }
+
+  /* ===== Steps ===== */
+  .steps {
+    counter-reset: step-counter;
+    list-style: none;
+    padding-left: 0;
+  }
+  .steps li {
+    counter-increment: step-counter;
+    position: relative;
+    padding-left: 44px;
+    margin-bottom: 18px;
+    min-height: 32px;
+  }
+  .steps li::before {
+    content: counter(step-counter);
+    position: absolute;
+    left: 0;
+    top: 0;
+    width: 28px;
+    height: 28px;
+    background: #2271b1;
+    color: #fff;
+    border-radius: 50%;
+    text-align: center;
+    line-height: 28px;
+    font-size: 13pt;
+    font-weight: bold;
+  }
+
+  /* ===== Info boxes ===== */
+  .info-box {
+    background: #e8f4fd;
+    border-left: 4px solid #2271b1;
+    padding: 12px 16px;
+    margin: 14px 0;
+    font-size: 10pt;
+    page-break-inside: avoid;
+  }
+  .warn-box {
+    background: #fff8e5;
+    border-left: 4px solid #dba617;
+    padding: 12px 16px;
+    margin: 14px 0;
+    font-size: 10pt;
+    page-break-inside: avoid;
+  }
+  .warn-box::before {
+    content: "注意: ";
+    font-weight: bold;
+    color: #9d7600;
+  }
+  .error-box {
+    background: #fce4ec;
+    border-left: 4px solid #d63638;
+    padding: 12px 16px;
+    margin: 14px 0;
+    font-size: 10pt;
+    page-break-inside: avoid;
+  }
+  .error-box::before {
+    content: "重要: ";
+    font-weight: bold;
+    color: #d63638;
+  }
+
+  /* ===== Code ===== */
+  code {
+    background: #f0f0f1;
+    padding: 2px 6px;
+    border-radius: 3px;
+    font-family: monospace;
+    font-size: 9.5pt;
+  }
+
+  /* ===== Flow chart ===== */
+  .flow {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-wrap: wrap;
+    gap: 6px;
+    margin: 16px 0;
+    font-size: 9.5pt;
+  }
+  .flow-box {
+    background: #fff;
+    border: 2px solid #2271b1;
+    border-radius: 6px;
+    padding: 8px 14px;
+    text-align: center;
+    min-width: 100px;
+  }
+  .flow-arrow {
+    font-size: 16pt;
+    color: #2271b1;
+  }
+  .flow-decision {
+    background: #fff8e5;
+    border: 2px solid #dba617;
+    border-radius: 6px;
+    padding: 8px 14px;
+    text-align: center;
+  }
+
+  /* ===== Settings table ===== */
+  .setting-table {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 9.5pt;
+    margin: 10px 0;
+  }
+  .setting-table th {
+    background: #f6f7f7;
+    border: 1px solid #c3c4c7;
+    padding: 8px 10px;
+    text-align: left;
+    width: 170px;
+    font-weight: 600;
+  }
+  .setting-table td {
+    border: 1px solid #c3c4c7;
+    padding: 8px 10px;
+  }
+
+  /* ===== Misc ===== */
+  .desc {
+    color: #666;
+    font-size: 9pt;
+    margin-top: 2px;
+  }
+  .tag {
+    display: inline-block;
+    padding: 1px 8px;
+    border-radius: 10px;
+    font-size: 8.5pt;
+    font-weight: 600;
+  }
+  .tag-holiday { background: #fce4ec; color: #c62828; }
+  .tag-normal  { background: #e8f5e9; color: #2e7d32; }
+  .tag-short   { background: #fff3e0; color: #e65100; }
+  .tag-special { background: #e3f2fd; color: #1565c0; }
+</style>
+</head>
+<body>
+
+<!-- ==================== Cover ==================== -->
+<div class="cover">
+  <h1>Holiday Auto Notice</h1>
+  <div class="subtitle">WordPress 休業自動告知プラグイン<br>操作マニュアル</div>
+  <div style="margin-top:40px;">
+    <div style="font-size:60pt; color:#2271b1;">&#128197;</div>
+  </div>
+  <div class="version">
+    Version 1.0<br>
+    最終更新: 2026年3月
+  </div>
+</div>
+
+<!-- ==================== TOC ==================== -->
+<div class="toc">
+  <h2>目次</h2>
+  <ol>
+    <li>プラグインの概要と全体フロー</li>
+    <li>初期設定（設定画面）</li>
+    <li>カレンダー管理（休業日の登録）</li>
+    <li>投稿の生成と管理</li>
+    <li>テンプレート管理</li>
+    <li>直前登録時の動作について</li>
+    <li>ショートコードの使い方</li>
+    <li>ログの確認</li>
+    <li>よくあるエラーと対処法</li>
+  </ol>
+</div>
+
+<!-- ==================== 1. Overview ==================== -->
+<section>
+  <h2>1. プラグインの概要と全体フロー</h2>
+
+  <p>Holiday Auto Notice は、WordPressサイトの<strong>休業日のお知らせ記事を自動的に生成・公開</strong>するプラグインです。</p>
+
+  <h3>基本的な流れ</h3>
+  <div class="flow">
+    <div class="flow-box"><strong>STEP 1</strong><br>設定を行う</div>
+    <div class="flow-arrow">&#10132;</div>
+    <div class="flow-box"><strong>STEP 2</strong><br>カレンダーに<br>休業日を登録</div>
+    <div class="flow-arrow">&#10132;</div>
+    <div class="flow-box"><strong>STEP 3</strong><br>月を保存</div>
+    <div class="flow-arrow">&#10132;</div>
+    <div class="flow-box"><strong>STEP 4</strong><br>投稿を生成<br>（手動 or 自動）</div>
+    <div class="flow-arrow">&#10132;</div>
+    <div class="flow-box"><strong>STEP 5</strong><br>指定日数前に<br>自動公開</div>
+  </div>
+
+  <h3>主な機能</h3>
+  <table class="setting-table">
+    <tr><th>休業カレンダー管理</th><td>月ごとに休業日・短縮営業日などを管理</td></tr>
+    <tr><th>自動投稿生成</th><td>休業日の指定日数前に告知記事を自動生成・公開</td></tr>
+    <tr><th>テンプレートシステム</th><td>休業種別ごとのタイトル・本文テンプレート</td></tr>
+    <tr><th>当日表示</th><td>ショートコードで当日の営業ステータスをサイト上に表示</td></tr>
+    <tr><th>CSV入出力</th><td>カレンダーデータのインポート・エクスポート</td></tr>
+    <tr><th>ログ管理</th><td>全操作の履歴を記録・確認</td></tr>
+  </table>
+
+  <h3>管理画面メニュー</h3>
+  <div class="wp-menu">
+    &#128197; 休業カレンダー<br>
+    &nbsp;&nbsp;&nbsp;&nbsp;<span class="active">&#9656; カレンダー管理</span><br>
+    &nbsp;&nbsp;&nbsp;&nbsp;&#9656; テンプレート管理<br>
+    &nbsp;&nbsp;&nbsp;&nbsp;&#9656; 設定<br>
+    &nbsp;&nbsp;&nbsp;&nbsp;&#9656; ログ
+  </div>
+  <p class="desc">WordPress管理画面の左メニューに「休業カレンダー」が追加されます。</p>
+</section>
+
+<!-- ==================== 2. Settings ==================== -->
+<section>
+  <h2>2. 初期設定（設定画面）</h2>
+  <p>プラグインを有効化したら、まず<strong>「休業カレンダー → 設定」</strong>で基本設定を行います。</p>
+
+  <div class="screen">
+    <div class="screen-title">&#9881; Holiday Auto Notice 設定</div>
+
+    <h4>基本設定</h4>
+    <table class="setting-table">
+      <tr>
+        <th>サイト名</th>
+        <td>
+          <span class="input-mock" style="min-width:200px;">ナガレヤマデザイン</span><br>
+          <span class="desc">テンプレートの {site_name} に使用されます</span>
+        </td>
+      </tr>
+      <tr>
+        <th>対象年度</th>
+        <td><span class="select-mock">2026年</span></td>
+      </tr>
+      <tr>
+        <th>営業時間</th>
+        <td>
+          <span class="input-mock" style="min-width:150px;">10:00〜18:00</span><br>
+          <span class="desc">テンプレートの {business_hours} に使用されます</span>
+        </td>
+      </tr>
+    </table>
+
+    <h4>自動運用設定</h4>
+    <table class="setting-table">
+      <tr>
+        <th>自動運用</th>
+        <td>
+          <span class="checkbox-mock checked">&#10003;</span> 自動運用を有効にする<br>
+          <span class="desc">OFFにすると全ての自動処理が停止します</span>
+        </td>
+      </tr>
+      <tr>
+        <th>自動投稿</th>
+        <td><span class="checkbox-mock checked">&#10003;</span> 休業日の事前告知を自動投稿する</td>
+      </tr>
+      <tr>
+        <th>当日表示</th>
+        <td><span class="checkbox-mock checked">&#10003;</span> 当日の営業ステータス表示を有効にする</td>
+      </tr>
+      <tr>
+        <th>固定ページ更新</th>
+        <td>
+          <span class="checkbox-mock">　</span> 指定した固定ページのプレースホルダを自動更新する
+        </td>
+      </tr>
+    </table>
+
+    <h4>投稿設定</h4>
+    <table class="setting-table">
+      <tr>
+        <th>投稿タイプ</th>
+        <td><span class="select-mock">投稿 (post)</span></td>
+      </tr>
+      <tr>
+        <th>カテゴリ</th>
+        <td><span class="select-mock">お知らせ</span></td>
+      </tr>
+      <tr>
+        <th>公開ステータス</th>
+        <td><span class="select-mock">公開</span></td>
+      </tr>
+      <tr>
+        <th>何日前に公開するか</th>
+        <td><span class="input-mock" style="min-width:40px;">10</span> 日前</td>
+      </tr>
+    </table>
+  </div>
+
+  <div class="info-box">
+    <strong>「何日前に公開するか」</strong>の設定は重要です。<br>
+    例えば「10」に設定すると、3月20日の休業日に対して <strong>3月10日の午前9時</strong> に告知記事が予約投稿されます。
+  </div>
+
+  <h3>直前登録時の挙動</h3>
+  <p>休業日までの日数が「何日前に公開するか」の設定値未満の場合の動作を選択します。</p>
+
+  <div class="screen">
+    <div class="screen-title">直前登録時の挙動</div>
+    <table class="setting-table">
+      <tr>
+        <th>直前登録時の挙動</th>
+        <td>
+          &#9675; <strong>即時公開</strong> — すぐに公開状態で投稿を作成<br>
+          &#9679; <strong>指定時刻で公開</strong> — 本日の指定時刻に予約投稿<br>
+          &#9675; <strong>自動投稿しない</strong> — 下書きとして生成（手動で公開）
+        </td>
+      </tr>
+      <tr>
+        <th>指定時刻</th>
+        <td><span class="input-mock">09:00</span></td>
+      </tr>
+    </table>
+  </div>
+
+  <div class="warn-box">
+    設定が完了したら必ず <span class="btn btn-primary">設定を保存</span> ボタンをクリックしてください。
+  </div>
+</section>
+
+<!-- ==================== 3. Calendar ==================== -->
+<section>
+  <h2>3. カレンダー管理（休業日の登録）</h2>
+  <p><strong>「休業カレンダー → カレンダー管理」</strong>で月ごとの休業日を設定します。</p>
+
+  <h3>画面構成</h3>
+  <div class="screen">
+    <div class="screen-title">休業カレンダー管理</div>
+
+    <!-- Year nav -->
+    <div style="margin-bottom:8px;">
+      <span class="btn">2025年</span>
+      <span class="btn btn-primary">2026年</span>
+      <span class="btn">2027年</span>
+    </div>
+
+    <!-- Month nav -->
+    <div style="margin-bottom:12px;">
+      <span class="btn">1月</span>
+      <span class="btn">2月</span>
+      <span class="btn btn-primary">3月</span>
+      <span class="btn">4月</span>
+      <span class="btn">5月</span>
+      <span class="btn">6月</span>
+      <span class="btn">7月</span>
+      <span class="btn">8月</span>
+      <span class="btn">9月</span>
+      <span class="btn">10月</span>
+      <span class="btn">11月</span>
+      <span class="btn">12月</span>
+    </div>
+
+    <!-- Toolbar -->
+    <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:10px;">
+      <strong style="font-size:12pt;">2026年3月</strong>
+      <div>
+        <span class="btn">テスト実行</span>
+        <span class="btn">手動実行</span>
+        <span class="btn">CSVエクスポート</span>
+        <span class="btn">CSVテンプレート</span>
+      </div>
+    </div>
+
+    <!-- Calendar table -->
+    <table class="mock-table">
+      <thead>
+        <tr>
+          <th style="width:50px;">日付</th>
+          <th style="width:35px;">曜日</th>
+          <th style="width:90px;">ステータス</th>
+          <th style="width:110px;">休業種別</th>
+          <th>メモ</th>
+          <th style="width:55px;">自動投稿</th>
+          <th style="width:55px;">投稿</th>
+          <th style="width:100px;">操作</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr class="sunday">
+          <td>3/1</td>
+          <td class="sunday">日</td>
+          <td><span class="select-mock">通常営業</span></td>
+          <td><span class="select-mock" style="color:#999;">--</span></td>
+          <td><span class="input-mock">メモ</span></td>
+          <td style="text-align:center;"><span class="checkbox-mock checked">&#10003;</span></td>
+          <td><span class="btn btn-small" style="color:#999;">生成</span></td>
+          <td><span class="btn btn-small">詳細</span> <span class="btn btn-small" style="color:#999;">ﾌﾟﾚﾋﾞｭｰ</span></td>
+        </tr>
+        <tr>
+          <td>3/2</td>
+          <td>月</td>
+          <td><span class="select-mock">通常営業</span></td>
+          <td><span class="select-mock" style="color:#999;">--</span></td>
+          <td><span class="input-mock">メモ</span></td>
+          <td style="text-align:center;"><span class="checkbox-mock checked">&#10003;</span></td>
+          <td><span class="btn btn-small" style="color:#999;">生成</span></td>
+          <td><span class="btn btn-small">詳細</span> <span class="btn btn-small" style="color:#999;">ﾌﾟﾚﾋﾞｭｰ</span></td>
+        </tr>
+        <tr style="background:#fff;">
+          <td colspan="8" style="text-align:center; color:#999; padding:2px;">. . .</td>
+        </tr>
+        <tr class="holiday-row" style="font-weight:600;">
+          <td>3/20</td>
+          <td>金</td>
+          <td><span class="select-mock" style="border-color:#c62828;">&#9660; 休業</span></td>
+          <td><span class="select-mock" style="border-color:#c62828;">&#9660; 祝日</span></td>
+          <td><span class="input-mock">春分の日</span></td>
+          <td style="text-align:center;"><span class="checkbox-mock checked">&#10003;</span></td>
+          <td><span class="btn btn-small">生成</span></td>
+          <td><span class="btn btn-small">詳細</span> <span class="btn btn-small">ﾌﾟﾚﾋﾞｭｰ</span></td>
+        </tr>
+        <tr style="background:#fff;">
+          <td colspan="8" style="text-align:center; color:#999; padding:2px;">. . .</td>
+        </tr>
+      </tbody>
+    </table>
+
+    <div style="margin-top:12px;">
+      <span class="btn btn-primary" style="font-size:10pt; padding:4px 20px;">この月を保存</span>
+    </div>
+  </div>
+
+  <h3>休業日の登録手順</h3>
+  <ol class="steps">
+    <li>
+      <strong>年と月を選択</strong><br>
+      上部のボタンで対象の年・月を選びます。
+    </li>
+    <li>
+      <strong>ステータスを「休業」に変更</strong><br>
+      休業にしたい日の「ステータス」ドロップダウンを <span class="tag tag-holiday">休業</span> に変更します。<br>
+      行がピンク色にハイライトされ、「休業種別」「生成」「プレビュー」が操作可能になります。
+    </li>
+    <li>
+      <strong>休業種別を選択</strong><br>
+      休業の種類を選びます。テンプレートがこの種別に応じて切り替わります。
+      <table class="mock-table" style="width:auto; margin-top:6px;">
+        <tr><td><span class="tag tag-holiday">祝日</span></td><td>国民の祝日</td></tr>
+        <tr><td><span class="tag tag-holiday">祝日以外の休業</span></td><td>定休日、臨時休業など</td></tr>
+        <tr><td><span class="tag tag-holiday">お盆</span></td><td>お盆休み期間</td></tr>
+        <tr><td><span class="tag tag-holiday">年末年始</span></td><td>年末年始の休業期間</td></tr>
+        <tr><td><span class="tag tag-holiday">個別特例</span></td><td>その他の特殊な休業</td></tr>
+      </table>
+    </li>
+    <li>
+      <strong>必要に応じてメモを入力</strong><br>
+      「春分の日」などの補足情報を記入できます（テンプレートの {note} に反映）。
+    </li>
+    <li>
+      <strong>「この月を保存」をクリック</strong><br>
+      <span class="btn btn-primary">この月を保存</span> を押してデータベースに保存します。
+    </li>
+  </ol>
+
+  <div class="error-box">
+    <strong>保存せずに「生成」ボタンを押すとエラーになります。</strong><br>
+    画面上でステータスを変更しただけでは、まだデータベースに書き込まれていません。<br>
+    必ず「この月を保存」を押してから「生成」ボタンを使用してください。
+  </div>
+
+  <h3>その他のステータス</h3>
+  <table class="setting-table">
+    <tr>
+      <th><span class="tag tag-normal">通常営業</span></th>
+      <td>通常の営業日（デフォルト）。投稿は生成されません。</td>
+    </tr>
+    <tr>
+      <th><span class="tag tag-short">短縮営業</span></th>
+      <td>営業時間が短い日。当日表示テンプレートに反映されます。</td>
+    </tr>
+    <tr>
+      <th><span class="tag tag-special">特別営業</span></th>
+      <td>通常と異なる特別営業日。当日表示テンプレートに反映されます。</td>
+    </tr>
+  </table>
+</section>
+
+<!-- ==================== 4. Post Generation ==================== -->
+<section>
+  <h2>4. 投稿の生成と管理</h2>
+  <p>休業日を保存したら、告知記事を生成します。方法は3つあります。</p>
+
+  <h3>方法A: 個別に手動生成</h3>
+  <p>カレンダー画面で対象日の <span class="btn btn-small">生成</span> ボタンをクリックします。</p>
+  <ol class="steps">
+    <li><strong>カレンダーで休業日を設定し、月を保存する</strong></li>
+    <li><strong>対象日の「生成」ボタンをクリック</strong><br>確認ダイアログが表示されます。</li>
+    <li><strong>生成完了</strong><br>ボタンが投稿IDのリンクに変わります。クリックすると投稿編集画面が開きます。</li>
+  </ol>
+
+  <h3>方法B: 手動一括実行</h3>
+  <p>ツールバーの <span class="btn">手動実行</span> ボタンで、未処理の休業日すべてに対して投稿を一括生成します。</p>
+  <div class="info-box">
+    手動実行は「自動投稿」チェックボックスがONの休業日のみが対象です。
+  </div>
+
+  <h3>方法C: 自動生成（Cron）</h3>
+  <p>自動運用と自動投稿の設定がONの場合、<strong>毎日午前1時</strong>にWordPressのCronが以下を実行します：</p>
+  <ul>
+    <li>未処理の休業日に対する投稿を自動生成</li>
+    <li>既存の予約投稿を再計算（変更の反映）</li>
+    <li>固定ページのプレースホルダを更新（設定がONの場合）</li>
+  </ul>
+
+  <h3>投稿の公開タイミング</h3>
+  <div class="flow">
+    <div class="flow-box">休業日<br><strong>3月20日</strong></div>
+    <div class="flow-arrow">&#8592; 10日前</div>
+    <div class="flow-box" style="border-color:#2e7d32;">公開日<br><strong>3月10日 09:00</strong><br><span class="desc">予約投稿として作成</span></div>
+  </div>
+  <p class="desc">「何日前に公開するか」の設定が10の場合。公開時刻は午前9時固定です。</p>
+
+  <h3>投稿プレビュー</h3>
+  <p>生成前に、 <span class="btn btn-small">ﾌﾟﾚﾋﾞｭｰ</span> ボタンでテンプレート展開後の内容を確認できます。</p>
+
+  <div class="screen">
+    <div class="screen-title">投稿プレビュー</div>
+    <table class="setting-table">
+      <tr><th>投稿タイトル</th><td>3月20日 祝日休業のお知らせ</td></tr>
+      <tr><th>投稿本文</th><td>いつもナガレヤマデザインをご利用いただきありがとうございます。<br>誠に勝手ながら、3月20日（金）は祝日のため休業とさせていただきます。<br>翌営業日は3月21日（土）です。</td></tr>
+      <tr><th>当日表示メッセージ</th><td>本日は祝日のため休業しております。</td></tr>
+      <tr><th>公開予定</th><td>future / 2026-03-10 09:00:00</td></tr>
+    </table>
+  </div>
+
+  <h3>詳細設定（個別カスタマイズ）</h3>
+  <p>カレンダーの <span class="btn btn-small">詳細</span> ボタンから、特定の日だけテンプレートとは異なる内容を設定できます。</p>
+
+  <div class="screen">
+    <div class="screen-title">日付詳細 — 2026-03-20</div>
+    <table class="setting-table">
+      <tr>
+        <th>個別タイトル</th>
+        <td><span class="input-mock" style="min-width:300px;">空欄の場合はテンプレートを使用</span></td>
+      </tr>
+      <tr>
+        <th>個別本文</th>
+        <td><span class="input-mock" style="min-width:300px; min-height:50px;">空欄の場合はテンプレートを使用</span></td>
+      </tr>
+      <tr>
+        <th>個別当日表示文</th>
+        <td><span class="input-mock" style="min-width:300px;">空欄の場合はテンプレートを使用</span></td>
+      </tr>
+    </table>
+    <div style="margin-top:8px;">
+      <span class="btn btn-primary">保存</span>
+      <span class="btn">閉じる</span>
+    </div>
+  </div>
+  <p class="desc">空欄のままにすると、テンプレート管理で設定した共通テンプレートが使われます。</p>
+</section>
+
+<!-- ==================== 5. Templates ==================== -->
+<section>
+  <h2>5. テンプレート管理</h2>
+  <p><strong>「休業カレンダー → テンプレート管理」</strong>で告知記事のテンプレートを編集します。</p>
+
+  <h3>テンプレートの種類（3タブ）</h3>
+  <div class="screen">
+    <div class="screen-title">テンプレート管理</div>
+    <div style="margin-bottom:10px;">
+      <span class="btn btn-primary">事前告知投稿用</span>
+      <span class="btn">当日表示用</span>
+      <span class="btn">営業再開案内用</span>
+    </div>
+  </div>
+
+  <table class="setting-table">
+    <tr>
+      <th>事前告知投稿用</th>
+      <td>休業日のN日前に公開される告知記事のタイトルと本文</td>
+    </tr>
+    <tr>
+      <th>当日表示用</th>
+      <td>休業日当日にショートコードで表示されるメッセージ</td>
+    </tr>
+    <tr>
+      <th>営業再開案内用</th>
+      <td>休業明けの営業日に公開される案内記事のタイトルと本文</td>
+    </tr>
+  </table>
+
+  <p>各タブ内で、休業種別（祝日、お盆、年末年始など）ごとにテンプレートを設定できます。</p>
+
+  <h3>使用可能な変数</h3>
+  <table class="setting-table">
+    <tr><th><code>{site_name}</code></th><td>設定画面のサイト名</td></tr>
+    <tr><th><code>{date}</code></th><td>休業日（例: 2026年3月20日）</td></tr>
+    <tr><th><code>{year}</code></th><td>年（2026）</td></tr>
+    <tr><th><code>{month}</code></th><td>月（3）</td></tr>
+    <tr><th><code>{day}</code></th><td>日（20）</td></tr>
+    <tr><th><code>{weekday}</code></th><td>曜日（金）</td></tr>
+    <tr><th><code>{holiday_name}</code></th><td>休業種別名（祝日、お盆 など）</td></tr>
+    <tr><th><code>{next_business_date}</code></th><td>翌営業日の日付</td></tr>
+    <tr><th><code>{next_business_weekday}</code></th><td>翌営業日の曜日</td></tr>
+    <tr><th><code>{business_hours}</code></th><td>営業時間（設定画面の値）</td></tr>
+    <tr><th><code>{notice_days_before}</code></th><td>何日前に公開するかの設定値</td></tr>
+    <tr><th><code>{note}</code></th><td>カレンダーのメモ欄の内容</td></tr>
+  </table>
+
+  <h3>テンプレート例</h3>
+  <div class="screen">
+    <div class="screen-title">事前告知投稿用 — 祝日</div>
+    <table class="setting-table">
+      <tr>
+        <th>タイトル</th>
+        <td><code>{month}月{day}日 祝日休業のお知らせ</code></td>
+      </tr>
+      <tr>
+        <th>本文</th>
+        <td>
+          <code>いつも{site_name}をご利用いただきありがとうございます。</code><br>
+          <code>誠に勝手ながら、{date}（{weekday}）は{holiday_name}のため休業とさせていただきます。</code><br>
+          <code>翌営業日は{next_business_date}（{next_business_weekday}）です。</code><br>
+          <code>ご不便をおかけしますが、よろしくお願いいたします。</code>
+        </td>
+      </tr>
+    </table>
+  </div>
+</section>
+
+<!-- ==================== 6. Short Notice ==================== -->
+<section>
+  <h2>6. 直前登録時の動作について</h2>
+  <p>公開予定日を過ぎてから休業日を登録した場合の動作です。</p>
+
+  <h3>具体例</h3>
+  <div class="info-box">
+    <strong>設定:</strong> 何日前に公開するか = <strong>10日</strong><br>
+    <strong>休業日:</strong> 3月20日<br>
+    <strong>本来の公開日:</strong> 3月10日（10日前）<br>
+    <strong>実際に登録した日:</strong> 3月12日（= 8日前。もう公開日を過ぎている）
+  </div>
+
+  <p>この場合、設定の「直前登録時の挙動」に従って以下のように動作します：</p>
+
+  <table class="setting-table">
+    <tr>
+      <th style="background:#e8f5e9;">即時公開</th>
+      <td>投稿が<strong>すぐに公開状態</strong>で作成されます。<br>
+      最も確実に告知が行われる設定です。</td>
+    </tr>
+    <tr>
+      <th style="background:#e3f2fd;">指定時刻で公開</th>
+      <td>投稿が<strong>本日の指定時刻</strong>に予約投稿されます。<br>
+      例：指定時刻が09:00の場合、当日の09:00に公開されます。<br>
+      既に指定時刻を過ぎていればすぐに公開されます。</td>
+    </tr>
+    <tr>
+      <th style="background:#fff8e5;">自動投稿しない</th>
+      <td>投稿が<strong>下書き状態</strong>で作成されます。<br>
+      管理画面の投稿一覧から手動で確認・公開する必要があります。</td>
+    </tr>
+  </table>
+
+  <h3>判定フローチャート</h3>
+  <div class="flow">
+    <div class="flow-box">投稿を生成</div>
+    <div class="flow-arrow">&#10132;</div>
+    <div class="flow-decision">公開予定日 ≦ 今日？</div>
+  </div>
+  <div style="display:flex; justify-content:center; gap:40px; margin-top:6px;">
+    <div style="text-align:center;">
+      <div style="color:#2e7d32; font-weight:bold;">いいえ（通常）</div>
+      <div class="flow-arrow" style="transform:rotate(90deg);">&#10132;</div>
+      <div class="flow-box" style="border-color:#2e7d32;">指定日に予約投稿<br><span class="desc">（例: 3/10 09:00）</span></div>
+    </div>
+    <div style="text-align:center;">
+      <div style="color:#d63638; font-weight:bold;">はい（直前登録）</div>
+      <div class="flow-arrow" style="transform:rotate(90deg);">&#10132;</div>
+      <div class="flow-decision">設定を確認</div>
+      <div style="font-size:8.5pt; margin-top:6px; line-height:1.8;">
+        即時 → すぐ公開<br>
+        指定時刻 → 本日の指定時刻<br>
+        スキップ → 下書き保存
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ==================== 7. Shortcodes ==================== -->
+<section>
+  <h2>7. ショートコードの使い方</h2>
+  <p>サイトのフロントエンド（固定ページ・投稿）に営業ステータスを表示できます。</p>
+
+  <h3>営業ステータス表示</h3>
+  <table class="setting-table">
+    <tr>
+      <th><code>[han_status]</code></th>
+      <td>
+        当日の営業ステータスメッセージを表示します。<br>
+        通常営業日も含め常に表示されます。
+      </td>
+    </tr>
+    <tr>
+      <th><code>[han_status show_normal="false"]</code></th>
+      <td>
+        通常営業日には何も表示せず、<strong>休業日・短縮営業日のみ</strong>表示します。<br>
+        トップページなどに設置する場合に便利です。
+      </td>
+    </tr>
+  </table>
+
+  <h3>次回休業日表示</h3>
+  <table class="setting-table">
+    <tr>
+      <th><code>[han_next_holiday]</code></th>
+      <td>次の休業日の情報を表示します。</td>
+    </tr>
+  </table>
+
+  <h3>固定ページ用プレースホルダ</h3>
+  <p>固定ページの本文（HTMLエディタ）に以下のコメントを記述すると、Cron実行時に中身が自動置換されます。</p>
+  <code style="display:block; padding:8px 12px; margin:8px 0;">&lt;!-- han_status --&gt;&lt;!-- /han_status --&gt;</code>
+  <div class="warn-box">
+    固定ページ更新を使用するには、設定画面で「固定ページ更新」をONにし、対象ページを選択してください。
+  </div>
+</section>
+
+<!-- ==================== 8. Logs ==================== -->
+<section>
+  <h2>8. ログの確認</h2>
+  <p><strong>「休業カレンダー → ログ」</strong>でプラグインの動作履歴を確認できます。</p>
+
+  <h3>更新ログ</h3>
+  <p>すべての操作の記録が確認できます。種別やレベルでフィルタリング可能です。</p>
+  <div class="screen">
+    <div class="screen-title">更新ログ</div>
+    <table class="mock-table">
+      <thead>
+        <tr>
+          <th style="width:130px;">日時</th>
+          <th style="width:55px;">レベル</th>
+          <th style="width:100px;">種別</th>
+          <th>メッセージ</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>2026-03-10 01:00</td>
+          <td><span class="tag tag-normal">info</span></td>
+          <td>cron</td>
+          <td>日次チェックを開始しました</td>
+        </tr>
+        <tr>
+          <td>2026-03-10 01:00</td>
+          <td><span class="tag tag-normal">info</span></td>
+          <td>post_generate</td>
+          <td>投稿を生成しました（date: 2026-03-20, post_id: 128）</td>
+        </tr>
+        <tr>
+          <td>2026-03-10 01:00</td>
+          <td><span class="tag tag-normal">info</span></td>
+          <td>cron</td>
+          <td>日次チェックが完了しました</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+
+  <h3>投稿履歴</h3>
+  <p>自動生成された投稿の一覧が確認できます。各投稿の編集画面へのリンク付きです。</p>
+  <div class="screen">
+    <div class="screen-title">投稿履歴</div>
+    <table class="mock-table">
+      <thead>
+        <tr>
+          <th style="width:40px;">ID</th>
+          <th>タイトル</th>
+          <th style="width:90px;">休業日</th>
+          <th style="width:80px;">休業種別</th>
+          <th style="width:70px;">ステータス</th>
+          <th style="width:120px;">公開日</th>
+          <th style="width:80px;">操作</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>128</td>
+          <td>3月20日 祝日休業のお知らせ</td>
+          <td>2026-03-20</td>
+          <td>祝日</td>
+          <td>future</td>
+          <td>2026-03-10 09:00</td>
+          <td><span class="btn btn-small">編集</span> <span class="btn btn-small">表示</span></td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</section>
+
+<!-- ==================== 9. Troubleshooting ==================== -->
+<section>
+  <h2>9. よくあるエラーと対処法</h2>
+
+  <h3>エラー: 指定された日付のデータが見つかりません。</h3>
+  <div class="error-box">
+    カレンダー画面でステータスを変更した後、<strong>「この月を保存」を押さずに「生成」ボタンを押した</strong>場合に発生します。
+  </div>
+  <p><strong>対処法:</strong></p>
+  <ol>
+    <li>カレンダー画面でステータス・種別を設定</li>
+    <li><span class="btn btn-primary">この月を保存</span> をクリック</li>
+    <li>保存完了後に <span class="btn btn-small">生成</span> をクリック</li>
+  </ol>
+
+  <h3>投稿が自動生成されない</h3>
+  <p>以下の点を確認してください：</p>
+  <table class="setting-table">
+    <tr><th>自動運用がON</th><td>設定 → 自動運用を有効にする がチェックされていること</td></tr>
+    <tr><th>自動投稿がON</th><td>設定 → 休業日の事前告知を自動投稿する がチェックされていること</td></tr>
+    <tr><th>自動投稿チェック</th><td>カレンダーの各日の「自動投稿」欄がチェックされていること</td></tr>
+    <tr><th>月が保存済み</th><td>カレンダーの「この月を保存」が実行されていること</td></tr>
+    <tr><th>WP-Cronが動作</th><td>WordPressのCronが正しく動作していること（要サイトへのアクセス）</td></tr>
+  </table>
+
+  <h3>テンプレートの変数が展開されない</h3>
+  <p>変数名のスペルを確認してください。変数は <code>{</code> と <code>}</code> で囲む必要があります。</p>
+  <p>使用可能な変数の一覧は「5. テンプレート管理」のセクションを参照してください。</p>
+
+  <h3>テスト実行の活用</h3>
+  <p>問題が発生した場合は、ツールバーの <span class="btn">テスト実行</span> ボタンが便利です。</p>
+  <p>実際に投稿を生成せずに、どの休業日に対してどんな投稿が生成されるかを事前に確認できます。</p>
+
+  <div class="info-box">
+    <strong>ヒント:</strong> ログ画面で操作履歴を確認すると、問題の原因を特定しやすくなります。
+    エラーレベルのログがある場合は、そのメッセージ内容を確認してください。
+  </div>
+</section>
+
+</body>
+</html>
